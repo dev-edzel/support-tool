@@ -2,32 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketRequest;
+use App\Http\Resources\TicketResource;
+use App\Models\Ticket;
+use App\Traits\HasLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
-    public function index()
+    use HasLog;
+
+    public function index(Request $request)
     {
-        //
+        $tickets = Ticket::search($request->input('search'))
+            ->orderBy('id', 'asc')
+            ->paginate(10);
+
+        return response()->success(
+            "Searching Ticket Successful",
+            TicketResource::collection($tickets)
+        );
     }
 
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
-        //
+        $tix = $request->toArray();
+
+        $ticket = Ticket::create($tix);
+
+        return response()->success(
+            'Storing Ticket Successful',
+            new TicketResource($ticket)
+        );
     }
 
-    public function show(string $id)
+    public function show(Ticket $ticket)
     {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        return response()->success(
+            "Searching Ticket Successful",
+            new TicketResource($ticket)
+        );
     }
 }

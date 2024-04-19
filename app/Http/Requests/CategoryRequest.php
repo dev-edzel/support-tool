@@ -26,7 +26,8 @@ class CategoryRequest extends FormRequest
     {
         if ($this->method() == "POST") {
             return [
-                'type' => ['required', 'string']
+                'type' => ['required', 'string'],
+                'sub_category' => ['required', 'exists:sub_categories,id']
             ];
         } else {
             return [];

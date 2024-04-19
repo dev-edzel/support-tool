@@ -27,8 +27,9 @@ return new class extends Migration
             $table->string('concern');
             $table->string('status')->default('OPEN');
             $table->string('resolved_by')->nullable();
-            $table->dateTime('resolved_date');
-            $table->dateTime('closed_date');
+            $table->dateTime('resolved_date')->nullable();
+            $table->dateTime('closed_date')->nullable();
+            $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -41,6 +42,9 @@ return new class extends Migration
             $table->foreign('sub_category_id')
                 ->references('id')
                 ->on('sub_categories');
+            $table->foreign('last_modified_log_id')
+                ->references('id')
+                ->on('user_logs');
         });
     }
 

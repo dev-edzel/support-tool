@@ -2,11 +2,14 @@
 
 namespace App\Http\Resources;
 
+use App\Traits\HasHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TicketResource extends JsonResource
 {
+    use HasHelper;
+
     /**
      * Transform the resource into an array.
      *
@@ -31,6 +34,7 @@ class TicketResource extends JsonResource
         );
 
         return [
+            'id' => $this->id,
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
@@ -41,10 +45,11 @@ class TicketResource extends JsonResource
             'subject' => $this->subject,
             'ref_no' => $this->ref_no,
             'concern' => $this->concern,
-            'status' => $this->status,
-            'resolved_by' => $this->resolved_by,
-            'resolved_date' => $this->resolved_by,
-            'closed_date' => $this->resolved_by
+            'status' => $this->status ?? 'OPEN',
+            // 'resolved_by' => $this->resolved_by,
+            // 'resolved_date' => $this->resolved_by,
+            // 'closed_date' => $this->resolved_by,
+            // 'last_modified_log_id' => $this->last_modified_log_id,
         ];
     }
 }
