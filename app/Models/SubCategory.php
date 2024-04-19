@@ -7,20 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ClientInfo extends Model
+class SubCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'client_info';
+    protected $table = 'sub_categories';
 
     protected $fillable = [
-        'ticket_id',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'address',
-        'number',
-        'email'
+        'type',
+        'category_id'
     ];
 
     protected $hidden = [
@@ -28,6 +23,11 @@ class ClientInfo extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function ticket(): BelongsTo
     {
