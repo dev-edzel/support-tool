@@ -35,7 +35,7 @@ return new class extends Migration
 
             $table->foreign('ticket_type_id')
                 ->references('id')
-                ->on('ticket_types');
+                ->on('ticket_type');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');

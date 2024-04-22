@@ -21,6 +21,7 @@ class SubCategoryResource extends JsonResource
         $data = $this->relatedRss($category, 'category_id', 'category');
 
         return [
+            'id' => $this->id,
             'type',
             ...$data,
             'category_id'

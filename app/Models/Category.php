@@ -6,13 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
-    protected $fillable = ['type'];
+    protected $fillable = [
+        'type',
+        'last_modified_log_id'
+    ];
 
     protected $hidden = [
         'created_at',
@@ -23,5 +28,17 @@ class Category extends Model
     public function sub_categories(): HasMany
     {
         return $this->hasMany(SubCategory::class);
+    }
+
+    public function last_modified_log(): HasOne
+    {
+        return $this->hasOne(UserLog::class, 'id', 'last_modified_log_id');
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'type' => $this->type,
+        ];
     }
 }

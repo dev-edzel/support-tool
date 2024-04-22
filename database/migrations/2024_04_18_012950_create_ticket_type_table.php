@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_types', function (Blueprint $table) {
+        Schema::create('ticket_type', function (Blueprint $table) {
             $table->id();
-            $table->string('short_name');
+            $table->string('short_name')->unique();
             $table->string('name');
+            $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('last_modified_log_id')
+                ->references('id')
+                ->on('user_logs');
         });
     }
 

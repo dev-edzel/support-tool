@@ -26,7 +26,7 @@ class TicketTypeRequest extends FormRequest
     {
         if ($this->method() == "POST") {
             return [
-                'short_name' => ['required', 'string'],
+                'short_name' => ['required', 'string', 'unique:ticket_type'],
                 'name' => ['required', 'string']
             ];
         } else {
