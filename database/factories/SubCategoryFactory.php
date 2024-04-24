@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class SubCategoryFactory extends Factory
     {
         return [
             'type' => $this->faker->sentence(),
+            'category_id' => Category::factory()->create()->id,
         ];
     }
 }

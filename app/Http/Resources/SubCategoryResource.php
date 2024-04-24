@@ -14,17 +14,10 @@ class SubCategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $category = new CategoryResource(
-            $this->whenLoaded('category')
-        );
-
-        $data = $this->relatedRss($category, 'category_id', 'category');
-
         return [
             'id' => $this->id,
-            'type',
-            ...$data,
-            'category_id'
+            'category_id' => $this->category_id,
+            'type' => $this->type,
         ];
     }
 }

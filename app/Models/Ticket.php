@@ -13,6 +13,7 @@ class Ticket extends Model
     use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = [
+        'ticket_number',
         'first_name',
         'middle_name',
         'last_name',
@@ -28,7 +29,6 @@ class Ticket extends Model
         'status',
         'resolved_by',
         'resolved_date',
-        'closed_date',
         'last_modified_log_id',
     ];
 

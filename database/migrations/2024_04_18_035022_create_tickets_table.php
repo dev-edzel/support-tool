@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->string('ticket_number')->unique();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
@@ -28,7 +29,6 @@ return new class extends Migration
             $table->string('status')->default('OPEN');
             $table->string('resolved_by')->nullable();
             $table->dateTime('resolved_date')->nullable();
-            $table->dateTime('closed_date')->nullable();
             $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

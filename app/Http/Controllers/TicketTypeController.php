@@ -16,7 +16,8 @@ class TicketTypeController extends Controller
 
     public function index(Request $request)
     {
-        $ticket_type = TicketType::search($request->input('search'))
+        $ticket_type = TicketType::search($request
+            ->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 

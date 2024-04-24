@@ -19,7 +19,6 @@ class CategoryFactory extends Factory
     {
         return [
             'type' => $this->faker->sentence(),
-            'sub_category_id' => SubCategory::factory()->create()->id,
         ];
     }
 }

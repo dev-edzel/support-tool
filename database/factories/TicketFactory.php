@@ -21,6 +21,9 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
+            'ticket_number' => $this->faker->randomElement([
+                'TEST' . rand(1000000, 999999999)
+            ]),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->lastName(),
             'last_name' => $this->faker->lastName(),
@@ -32,7 +35,7 @@ class TicketFactory extends Factory
             'sub_category_id' => SubCategory::factory()->create()->id,
             'subject' => $this->faker->sentence(),
             'ref_no' => $this->faker->randomElement(
-                ['TICKET' . strtoupper(Str::random(6))]
+                ['PPG' . strtoupper(Str::random(10))]
             ),
             'concern' => $this->faker->sentence(),
             'status' => $this->faker->randomElement(

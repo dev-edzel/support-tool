@@ -16,7 +16,8 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::search($request->input('search'))
+        $categories = Category::search($request
+            ->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
@@ -53,14 +54,18 @@ class CategoryController extends Controller
 
             if ($changes) {
                 $log = $this->log('UPDATE CATEGORY', $changes);
-                $category->update(['last_modified_log_id' => $log->id]);
+                $category->update([
+                    'last_modified_log_id' => $log->id
+                ]);
             }
 
             return $changes;
         });
 
         return response()->success(
-            $changes ? 'Updating Category Successful' : 'No changes made.',
+            $changes
+                ? 'Updating Category Successful'
+                : 'No changes made.',
             new CategoryResource($category)
         );
     }
@@ -82,7 +87,8 @@ class CategoryController extends Controller
 
     public function trashed(Request $request)
     {
-        $categories = Category::search($request->input('search'))
+        $categories = Category::search($request
+            ->input('search'))
             ->orderBy('id', 'asc')
             ->onlyTrashed()
             ->paginate(10);
@@ -98,7 +104,10 @@ class CategoryController extends Controller
         $category = Category::onlyTrashed()->findOrFail($id);
 
         DB::transaction(function () use ($category) {
-            $log = $this->log('RESTORE CATEGORY', $category);
+            $log = $this->log(
+                'RESTORE CATEGORY',
+                $category
+            );
             $category->last_modified_log_id = $log->id;
             $category->save();
             $category->restore();

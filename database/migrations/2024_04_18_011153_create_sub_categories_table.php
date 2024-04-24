@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
             $table->string('type');
+            $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories');
             $table->foreign('last_modified_log_id')
                 ->references('id')
                 ->on('user_logs');

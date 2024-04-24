@@ -7,6 +7,7 @@ use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
 use App\Traits\HasHelper;
 use App\Traits\HasLog;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,8 @@ class TicketController extends Controller
 
     public function index(Request $request)
     {
-        $tickets = Ticket::search($request->input('search'))
+        $tickets = Ticket::search($request
+            ->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
@@ -30,11 +32,14 @@ class TicketController extends Controller
     {
         $data = $request->toArray();
 
-        $ticket = Ticket::create($data);
+        $tix = Ticket::create([
+            ...$data,
+            'ticket_number' => 'TIX' . rand(999999999)
+        ]);
 
         return response()->success(
             'Storing Ticket Successful',
-            new TicketResource($ticket)
+            new TicketResource($tix)
         );
     }
 
@@ -53,14 +58,18 @@ class TicketController extends Controller
 
             if ($changes) {
                 $log = $this->log('UPDATE TICKET', $changes);
-                $ticket->update(['last_modified_log_id' => $log->id]);
+                $ticket->update([
+                    'last_modified_log_id' => $log->id
+                ]);
             }
 
             return $changes;
         });
 
         return response()->success(
-            $changes ? 'Updating Ticket Successful' : 'No changes made.',
+            $changes
+                ? 'Updating Ticket Successful'
+                : 'No changes made.',
             new TicketResource($ticket)
         );
     }
@@ -82,7 +91,8 @@ class TicketController extends Controller
 
     public function trashed(Request $request)
     {
-        $tickets = Ticket::search($request->input('search'))
+        $tickets = Ticket::search($request
+            ->input('search'))
             ->orderBy('id', 'asc')
             ->onlyTrashed()
             ->paginate(10);
