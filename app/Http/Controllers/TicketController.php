@@ -6,13 +6,13 @@ use App\Http\Requests\TicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
 use App\Traits\HasHelper;
-use App\Traits\HasLog;
+use App\Traits\HasLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
-    use HasLog, HasHelper;
+    use HasLogger, HasHelper;
 
     public function index(Request $request)
     {
@@ -46,7 +46,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         return response()->success(
-            "Searching Ticket Successful",
+            'Searching Ticket Successful',
             new TicketResource($ticket)
         );
     }
@@ -84,7 +84,7 @@ class TicketController extends Controller
         });
 
         return response()->success(
-            "Deleting Ticket Successful",
+            'Deleting Ticket Successful',
             new TicketResource($ticket)
         );
     }
@@ -98,7 +98,7 @@ class TicketController extends Controller
             ->paginate(10);
 
         return response()->success(
-            "Searching Deleted Ticket Successful",
+            'Searching Deleted Ticket Successful',
             TicketResource::collection($tickets)
         );
     }
@@ -115,7 +115,7 @@ class TicketController extends Controller
         });
 
         return response()->success(
-            "Restoring Ticket Successful",
+            'Restoring Ticket Successful',
             new TicketResource($ticket)
         );
     }

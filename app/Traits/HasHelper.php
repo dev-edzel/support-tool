@@ -2,7 +2,11 @@
 
 namespace App\Traits;
 
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 trait HasHelper
 {
@@ -63,5 +67,30 @@ trait HasHelper
         }
 
         return new static($results);
+    }
+
+    private function getCredentials(LoginRequest $request)
+    {
+        $input = $request->filled('username') ? 'username' : 'email';
+        return [
+            $input => $request->input($input),
+            'password' => $request->input('password'),
+        ];
+    }
+
+    private function findUser(array $credentials)
+    {
+        $input = array_key_exists('username', $credentials) ? 'username' : 'email';
+        return User::where($input, $credentials[$input])->first();
+    }
+
+    private function validatePassword(LoginRequest $request, $user)
+    {
+        return Hash::check($request->input('password'), $user->password);
+    }
+
+    private function generateToken($user)
+    {
+        return JWTAuth::fromUser($user);
     }
 }

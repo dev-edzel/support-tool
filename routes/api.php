@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Auth\UserInfoController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TicketController;
@@ -9,14 +11,31 @@ use App\Http\Controllers\TicketTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+/* <-------------------- USER AUTHENTICATION (START) -------------------- */
+
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'user-info/trashed'], function () {
+    Route::get('', [UserInfoController::class, 'trashed']);
+    Route::get('/restore/{id}', [UserInfoController::class, 'restore']);
+});
+Route::resource('user-info', UserInfoController::class);
+
+Route::group(['prefix' => 'users/trashed'], function () {
+    Route::get('', [UserController::class, 'trashed']);
+    Route::get('/restore/{id}', [UserController::class, 'restore']);
+});
+Route::resource('users', UserController::class);
+
+Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('profile', [AuthController::class, 'profile']);
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('logout', [AuthController::class, 'logout']);
-})->middleware('auth.jwt');
+});
+
+/* <-------------------- USER AUTHENTICATION (END) ---------------------- */
 
 Route::group(['prefix' => 'tickets/trashed'], function () {
     Route::get('', [TicketController::class, 'trashed']);

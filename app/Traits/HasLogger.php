@@ -7,7 +7,7 @@ use App\Models\UserLog;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait HasLog
+trait HasLogger
 {
     public function log($activity, $data = "{}", $id = null)
     {

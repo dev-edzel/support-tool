@@ -6,14 +6,14 @@ use App\Http\Requests\SubCategoryRequest;
 use App\Http\Resources\SubCategoryResource;
 use App\Models\SubCategory;
 use App\Traits\HasHelper;
-use App\Traits\HasLog;
+use App\Traits\HasLogger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SubCategoryController extends Controller
 {
-    use HasLog, HasHelper;
+    use HasLogger, HasHelper;
 
     public function index(Request $request)
     {
@@ -23,7 +23,7 @@ class SubCategoryController extends Controller
             ->paginate(10);
 
         return response()->success(
-            "Searching Sub Categories Successful",
+            'Searching Sub Categories Successful',
             SubCategoryResource::collection($categories)
         );
     }
@@ -52,7 +52,7 @@ class SubCategoryController extends Controller
     public function show(SubCategory $sub_category)
     {
         return response()->success(
-            "Searching Sub Category Successful",
+            'Searching Sub Category Successful',
             new SubCategoryResource($sub_category)
         );
     }
@@ -90,7 +90,7 @@ class SubCategoryController extends Controller
         });
 
         return response()->success(
-            "Deleting Sub Category Successful",
+            'Deleting Sub Category Successful',
             new SubCategoryResource($sub_category)
         );
     }
@@ -104,7 +104,7 @@ class SubCategoryController extends Controller
             ->paginate(10);
 
         return response()->success(
-            "Searching Deleted Sub Category Successful",
+            'Searching Deleted Sub Category Successful',
             SubCategoryResource::collection($data)
         );
     }
@@ -124,7 +124,7 @@ class SubCategoryController extends Controller
         });
 
         return response()->success(
-            "Restoring Sub Category Successful",
+            'Restoring Sub Category Successful',
             new SubCategoryResource($sub_category)
         );
     }

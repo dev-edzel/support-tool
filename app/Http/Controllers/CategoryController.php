@@ -6,13 +6,13 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Traits\HasHelper;
-use App\Traits\HasLog;
+use App\Traits\HasLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    use HasLog, HasHelper;
+    use HasLogger, HasHelper;
 
     public function index(Request $request)
     {
@@ -22,7 +22,7 @@ class CategoryController extends Controller
             ->paginate(10);
 
         return response()->success(
-            "Searching Categories Successful",
+            'Searching Categories Successful',
             CategoryResource::collection($categories)
         );
     }
@@ -42,7 +42,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return response()->success(
-            "Searching Category Successful",
+            'Searching Category Successful',
             new CategoryResource($category)
         );
     }
@@ -80,7 +80,7 @@ class CategoryController extends Controller
         });
 
         return response()->success(
-            "Deleting Category Successful",
+            'Deleting Category Successful',
             new CategoryResource($category)
         );
     }
@@ -94,7 +94,7 @@ class CategoryController extends Controller
             ->paginate(10);
 
         return response()->success(
-            "Searching Deleted Category Successful",
+            'Searching Deleted Category Successful',
             CategoryResource::collection($categories)
         );
     }
@@ -114,7 +114,7 @@ class CategoryController extends Controller
         });
 
         return response()->success(
-            "Restoring Category Successful",
+            'Restoring Category Successful',
             new CategoryResource($category)
         );
     }
