@@ -30,6 +30,11 @@ class UserLog extends Model
         return $this->belongsTo(Ticket::class, 'id', 'last_modified_log_id');
     }
 
+    public function ticket_info(): BelongsTo
+    {
+        return $this->belongsTo(Ticket::class, 'id', 'last_modified_log_id');
+    }
+
     public function ticket_type(): BelongsTo
     {
         return $this->belongsTo(

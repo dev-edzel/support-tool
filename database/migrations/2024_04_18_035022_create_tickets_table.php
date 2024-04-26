@@ -13,35 +13,20 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('ticket_info_id');
             $table->string('ticket_number')->unique();
-            $table->string('first_name');
-            $table->string('middle_name')->nullable();
-            $table->string('last_name');
-            $table->string('address');
-            $table->string('number');
-            $table->string('email');
-            $table->unsignedBigInteger('ticket_type_id');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('sub_category_id');
-            $table->string('subject');
-            $table->string('ref_no');
-            $table->string('concern');
-            $table->string('status')->default('OPEN');
+            $table->string('status')->default('1');
+            // '1-OPEN', '2-ASSIGNED', '3-ON HOLD', '4-CANCELLED', '0-CLOSED'
             $table->string('resolved_by')->nullable();
             $table->dateTime('resolved_date')->nullable();
             $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('ticket_type_id')
+            $table->foreign('ticket_info_id')
                 ->references('id')
-                ->on('ticket_type');
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories');
-            $table->foreign('sub_category_id')
-                ->references('id')
-                ->on('sub_categories');
+                ->on('ticket_info');
+
             $table->foreign('last_modified_log_id')
                 ->references('id')
                 ->on('user_logs');

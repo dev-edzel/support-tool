@@ -25,6 +25,11 @@ class Category extends Model
         'deleted_at',
     ];
 
+    public function ticket_info(): BelongsTo
+    {
+        return $this->belongsTo(TicketInfo::class);
+    }
+
     public function sub_categories(): HasMany
     {
         return $this->hasMany(SubCategory::class);

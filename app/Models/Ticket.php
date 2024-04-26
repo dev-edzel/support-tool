@@ -13,19 +13,8 @@ class Ticket extends Model
     use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = [
+        'ticket_info_id',
         'ticket_number',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'address',
-        'number',
-        'email',
-        'ticket_type_id',
-        'category_id',
-        'sub_category_id',
-        'subject',
-        'ref_no',
-        'concern',
         'status',
         'resolved_by',
         'resolved_date',
@@ -38,19 +27,9 @@ class Ticket extends Model
         'deleted_at',
     ];
 
-    public function ticket_type(): HasOne
+    public function ticket_info(): HasOne
     {
-        return $this->hasOne(TicketType::class);
-    }
-
-    public function category(): HasOne
-    {
-        return $this->hasOne(Category::class);
-    }
-
-    public function sub_category(): HasOne
-    {
-        return $this->hasOne(Category::class);
+        return $this->hasOne(TicketInfo::class);
     }
 
     public function last_modified_log(): HasOne

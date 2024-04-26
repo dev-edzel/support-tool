@@ -27,27 +27,16 @@ class TicketRequest extends FormRequest
     {
         if ($this->method() == "POST") {
             return [
-                'first_name' => ['required', 'string'],
-                'middle_name' => ['required', 'string'],
-                'last_name' => ['required', 'string'],
-                'address' => ['required', 'string'],
-                'number' => ['required', 'string'],
-                'email' => ['required', 'string', 'email'],
-                'ticket_type_id' => ['required', 'exists:ticket_type,id'],
-                'category_id' => ['required', 'exists:categories,id'],
-                'sub_category_id' => ['required', 'exists:sub_categories,id'],
-                'subject' => ['required', 'string'],
-                'ref_no' => ['required', 'string'],
-                'concern' => ['nullable', 'string'],
+                'ticket_number' => ['required', 'string'],
                 'status' => ['nullable', 'string', Rule::in([
-                    'OPEN', 'ASSIGNED', 'ON HOLD', 'CLOSED', 'CANCELLED'
+                    0, 1, 2, 3, 4
                 ])],
                 'resolved_by' => ['nullable', 'string']
             ];
         } else {
             return [
                 'status' => ['nullable', 'string', Rule::in([
-                    'OPEN', 'ASSIGNED', 'ON HOLD', 'CLOSED', 'CANCELLED'
+                    0, 1, 2, 3, 4
                 ])],
             ];
         }

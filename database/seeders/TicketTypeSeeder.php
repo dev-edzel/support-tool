@@ -13,6 +13,13 @@ class TicketTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        TicketType::factory()->count(10)->create();
+        $data = config('seeder.ticket_types');
+
+        foreach ($data as $type) {
+            TicketType::create([
+                'short_name' => $type['short_name'],
+                'name' => $type['name'],
+            ]);
+        }
     }
 }

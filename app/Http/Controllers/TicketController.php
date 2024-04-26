@@ -7,7 +7,6 @@ use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
 use App\Traits\HasHelper;
 use App\Traits\HasLog;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,10 +33,11 @@ class TicketController extends Controller
 
         $tix = Ticket::create([
             ...$data,
-            'ticket_number' => 'TIX' . rand(999999999)
+            'ticket_number' => rand(1000000, 999999999)
         ]);
 
         return response()->success(
+
             'Storing Ticket Successful',
             new TicketResource($tix)
         );

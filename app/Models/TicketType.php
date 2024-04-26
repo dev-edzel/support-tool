@@ -27,9 +27,9 @@ class TicketType extends Model
         'deleted_at',
     ];
 
-    public function ticket(): BelongsTo
+    public function ticket_info(): BelongsTo
     {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(TicketInfo::class);
     }
     public function last_modified_log(): HasOne
     {
