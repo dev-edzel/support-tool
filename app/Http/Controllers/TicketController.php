@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketRequest;
+use App\Http\Resources\TicketInfoResource;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
 use App\Traits\HasHelper;
@@ -24,22 +25,6 @@ class TicketController extends Controller
         return response()->success(
             "Searching Ticket Successful",
             TicketResource::collection($tickets)
-        );
-    }
-
-    public function store(TicketRequest $request)
-    {
-        $data = $request->toArray();
-
-        $tix = Ticket::create([
-            ...$data,
-            'ticket_number' => rand(1000000, 999999999)
-        ]);
-
-        return response()->success(
-
-            'Storing Ticket Successful',
-            new TicketResource($tix)
         );
     }
 
@@ -117,6 +102,27 @@ class TicketController extends Controller
         return response()->success(
             'Restoring Ticket Successful',
             new TicketResource($ticket)
+        );
+    }
+
+    public function getTicketInfoByNumber(TicketRequest $request)
+    {
+        $ticketNumber = $request->input('ticket_number');
+
+        $ticket = Ticket::with('ticket_info')
+            ->where('ticket_number', $ticketNumber)->first();
+
+        if (!$ticket) {
+            return response()->failed('Ticket information not found');
+        }
+
+        return response()->success(
+            'Retrieving Ticket Information Successful',
+            [
+                'status' => $ticket->status,
+                'ticket_number' => $ticket->ticket_number,
+                'ticket_info' => new TicketInfoResource($ticket->ticket_info),
+            ]
         );
     }
 }

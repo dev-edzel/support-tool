@@ -21,7 +21,7 @@ class TicketResource extends JsonResource
             'id' => $this->id,
             'ticket_info_id' => $this->ticket_info_id,
             'ticket_number' => $this->ticket_number,
-            'status' => $this->status ?? 'OPEN',
+            'status' => $this->status ?? 1,
             'resolved_by' => $this->resolved_by,
             'resolved_date' => $this->resolved_by,
         ];

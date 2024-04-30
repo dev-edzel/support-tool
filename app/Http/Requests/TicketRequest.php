@@ -38,6 +38,7 @@ class TicketRequest extends FormRequest
                 'status' => ['nullable', 'string', Rule::in([
                     0, 1, 2, 3, 4
                 ])],
+                'ticket_number' => ['nullable', 'string']
             ];
         }
     }

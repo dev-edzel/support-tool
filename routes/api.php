@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
 /* <-------------------- USER AUTHENTICATION (END) ---------------------- */
 
+Route::get('/ticket/info', [TicketController::class, 'getTicketInfoByNumber']);
+
 Route::group(['prefix' => 'tickets/trashed'], function () {
     Route::get('', [TicketController::class, 'trashed']);
     Route::get('/restore/{id}', [TicketController::class, 'restore']);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -27,9 +28,9 @@ class Ticket extends Model
         'deleted_at',
     ];
 
-    public function ticket_info(): HasOne
+    public function ticket_info(): BelongsTo
     {
-        return $this->hasOne(TicketInfo::class);
+        return $this->belongsTo(TicketInfo::class);
     }
 
     public function last_modified_log(): HasOne
