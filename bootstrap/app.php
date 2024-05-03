@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\GateDefineMiddleware;
 use App\Http\Middleware\JWTMiddleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -17,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth.jwt' => JWTMiddleware::class
+        ]);
+
+        $middleware->group('api', [
+            GateDefineMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

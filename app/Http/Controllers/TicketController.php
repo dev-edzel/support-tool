@@ -17,6 +17,8 @@ class TicketController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('view-tickets');
+
         $tickets = Ticket::search($request
             ->input('search'))
             ->orderBy('id', 'asc')
@@ -61,6 +63,7 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
+
         DB::transaction(function () use ($ticket) {
             $log = $this->log('REMOVE TICKET', $ticket);
             $ticket->last_modified_log_id = $log->id;

@@ -15,4 +15,13 @@ return [
             'name' => 'MARITIME INDUSTRY AUTHORITY'
         ]
     ],
+
+    'roles' => [
+        [
+            'name' => 'Admin',
+        ],
+        [
+            'name' => 'Support'
+        ],
+    ],
 ];

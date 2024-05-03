@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Role;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest
 {
@@ -28,7 +30,11 @@ class RegisterRequest extends FormRequest
             return [
                 'username' => ['required', 'string', 'unique:users,username'],
                 'email' => ['required', 'email', 'unique:users,email'],
-                'password' => ['required', 'min:8', 'confirmed']
+                'password' => ['required', 'min:8', 'confirmed'],
+                'role_id' => ['required', Rule::in(
+                    Role::ROLE_ADMINISTRATOR,
+                    Role::ROLE_SUPPORT
+                )],
             ];
         } else {
             return [
