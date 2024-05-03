@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
 /* <-------------------- USER AUTHENTICATION (END) ---------------------- */
 
+
+Route::post('/ticket/assign-ticket',  [TicketController::class, 'assign_ticket']);
 Route::get('/ticket/info', [TicketController::class, 'getTicketInfoByNumber']);
 
 Route::group(['prefix' => 'tickets/trashed'], function () {

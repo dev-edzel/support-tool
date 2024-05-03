@@ -17,7 +17,7 @@ class Ticket extends Model
         'ticket_info_id',
         'ticket_number',
         'status',
-        'resolved_by',
+        'assigned_to',
         'resolved_date',
         'last_modified_log_id',
     ];

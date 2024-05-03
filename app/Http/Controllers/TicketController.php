@@ -128,4 +128,25 @@ class TicketController extends Controller
             ]
         );
     }
+    public function assign_ticket(Request $request)
+    {
+        $this->authorize('assign-ticket');
+
+        $request->validate([
+            'ticket_id' => ['required', 'exists:tickets,id'],
+            'username' => ['required', 'exists:users,username'],
+        ]);
+
+        $ticket = Ticket::findOrFail($request->ticket_id);
+
+        $ticket->update([
+            'assigned_to' => $request->username,
+            'status' => 'ASSIGNED',
+        ]);
+
+        return response()->success(
+            'Ticket assigned successfully',
+            new TicketResource($ticket)
+        );
+    }
 }

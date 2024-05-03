@@ -19,6 +19,10 @@ class PermissionSeeder extends Seeder
         $permissions = [
             'view-tickets' => [
                 Role::ROLE_ADMINISTRATOR,
+                Role::ROLE_SUPPORT,
+            ],
+            'assign-ticket' => [
+                Role::ROLE_ADMINISTRATOR,
             ],
         ];
 

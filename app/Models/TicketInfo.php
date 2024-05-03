@@ -67,7 +67,7 @@ class TicketInfo extends Model
 
     public function sub_category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(SubCategory::class);
     }
 
     public function last_modified_log(): HasOne

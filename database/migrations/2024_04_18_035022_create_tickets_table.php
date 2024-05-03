@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('ticket_info_id');
             $table->string('ticket_number')->unique();
             $table->string('status')->default('OPEN');
-            $table->string('resolved_by')->nullable();
+            $table->string('assigned_to')->default('admin');
             $table->dateTime('resolved_date')->nullable();
             $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();

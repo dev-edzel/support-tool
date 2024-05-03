@@ -22,8 +22,7 @@ class TicketResource extends JsonResource
             'ticket_info_id' => $this->ticket_info_id,
             'ticket_number' => $this->ticket_number,
             'status' => $this->status ?? 1,
-            'resolved_by' => $this->resolved_by,
-            'resolved_date' => $this->resolved_by,
+            'assigned_to' => $this->assigned_to
         ];
     }
 }

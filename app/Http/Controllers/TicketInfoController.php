@@ -20,6 +20,8 @@ class TicketInfoController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('view-tickets');
+
         $tickets = TicketInfo::search($request
             ->input('search'))
             ->orderBy('id', 'asc')
