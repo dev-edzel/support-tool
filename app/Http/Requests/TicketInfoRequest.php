@@ -30,9 +30,18 @@ class TicketInfoRequest extends FormRequest
                 'address' => ['required', 'string'],
                 'number' => ['required', 'string'],
                 'email' => ['required', 'string', 'email'],
-                'ticket_type_id' => ['required', 'exists:ticket_type,id'],
-                'category_id' => ['required', 'exists:categories,id'],
-                'sub_category_id' => ['required', 'exists:sub_categories,id'],
+                'ticket_type_id' => [
+                    'required', 'integer',
+                    'exists:ticket_type,id'
+                ],
+                'category_id' => [
+                    'required', 'integer',
+                    'exists:categories,id'
+                ],
+                'sub_category_id' => [
+                    'required', 'integer',
+                    'exists:sub_categories,id'
+                ],
                 'subject' => ['required', 'string'],
                 'ref_no' => ['required', 'string'],
                 'concern' => ['nullable', 'string'],

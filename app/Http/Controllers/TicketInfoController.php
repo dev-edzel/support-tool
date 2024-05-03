@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketInfoRequest;
 use App\Http\Resources\TicketInfoResource;
+use App\Mail\TicketMail;
 use App\Models\Ticket;
 use App\Models\TicketInfo;
 use App\Models\TicketType;
@@ -11,6 +12,7 @@ use App\Traits\HasHelper;
 use App\Traits\HasLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TicketInfoController extends Controller
 {
@@ -43,8 +45,13 @@ class TicketInfoController extends Controller
         $ticket = new Ticket([
             'ticket_number' => $ticketNumber,
             'ticket_info_id' => $ticketInfo->id,
+            'status' => 'OPEN'
         ]);
         $ticket->save();
+
+        Mail::to($validatedData['email'])->send(
+            new TicketMail($ticketNumber, $ticketInfo, 'OPEN')
+        );
 
         return response()->success(
             'Storing Ticket Successful',

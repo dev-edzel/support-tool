@@ -32,9 +32,9 @@ class SubCategory extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function ticket_info(): BelongsTo
+    public function ticket_info(): HasOne
     {
-        return $this->belongsTo(TicketInfo::class);
+        return $this->hasOne(TicketInfo::class);
     }
 
     public function last_modified_log(): HasOne

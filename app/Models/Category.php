@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,9 +24,9 @@ class Category extends Model
         'deleted_at',
     ];
 
-    public function ticket_info(): BelongsTo
+    public function ticket_info(): HasOne
     {
-        return $this->belongsTo(TicketInfo::class);
+        return $this->hasOne(TicketInfo::class);
     }
 
     public function sub_categories(): HasMany

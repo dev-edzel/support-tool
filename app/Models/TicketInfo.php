@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -53,20 +54,20 @@ class TicketInfo extends Model
         return $this->hasOne(Ticket::class);
     }
 
-    public function ticket_type(): HasOne
+    public function ticket_type(): BelongsTo
 
     {
-        return $this->hasOne(TicketType::class);
+        return $this->belongsTo(TicketType::class);
     }
 
-    public function category(): HasOne
+    public function category(): BelongsTo
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function sub_category(): HasOne
+    public function sub_category(): BelongsTo
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function last_modified_log(): HasOne

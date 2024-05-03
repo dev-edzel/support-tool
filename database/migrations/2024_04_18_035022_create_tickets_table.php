@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('ticket_info_id');
             $table->string('ticket_number')->unique();
-            $table->string('status')->default('1');
-            // '1-OPEN', '2-ASSIGNED', '3-ON HOLD', '4-CANCELLED', '0-CLOSED'
+            $table->string('status')->default('OPEN');
             $table->string('resolved_by')->nullable();
             $table->dateTime('resolved_date')->nullable();
             $table->unsignedBigInteger('last_modified_log_id')->nullable();

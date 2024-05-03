@@ -29,7 +29,7 @@ class TicketRequest extends FormRequest
             return [
                 'ticket_number' => ['required', 'string'],
                 'status' => ['nullable', 'string', Rule::in([
-                    0, 1, 2, 3, 4
+                    'OPEN', 'ASSIGNED', 'ON_HOLD', 'CANCELLED', 'CLOSED'
                 ])],
                 'resolved_by' => ['nullable', 'string']
             ];
