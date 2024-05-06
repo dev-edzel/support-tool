@@ -20,7 +20,7 @@ class TicketInfoController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('view-tickets');
+        // $this->authorize('view-tickets');
 
         $tickets = TicketInfo::search($request
             ->input('search'))

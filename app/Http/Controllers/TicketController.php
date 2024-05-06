@@ -17,7 +17,7 @@ class TicketController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('view-tickets');
+        // $this->authorize('view-tickets');
 
         $tickets = Ticket::search($request
             ->input('search'))

@@ -30,6 +30,7 @@ class TicketType extends Model
     {
         return $this->hasOne(TicketInfo::class);
     }
+
     public function last_modified_log(): HasOne
     {
         return $this->hasOne(UserLog::class, 'id', 'last_modified_log_id');

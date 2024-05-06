@@ -36,19 +36,6 @@ class TicketInfo extends Model
         'deleted_at',
     ];
 
-    public function toSearchableArray()
-    {
-        return [
-            'first_name' => $this->first_name,
-            'middle_name' => $this->middle_name,
-            'last_name' => $this->last_name,
-            'address' => $this->address,
-            'number' => $this->number,
-            'email' => $this->email,
-            'ref_no' => $this->ref_no
-        ];
-    }
-
     public function ticket(): HasOne
     {
         return $this->hasOne(Ticket::class);
@@ -73,5 +60,27 @@ class TicketInfo extends Model
     public function last_modified_log(): HasOne
     {
         return $this->hasOne(UserLog::class, 'id', 'last_modified_log_id');
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'first_name' => $this->first_name,
+            'middle_name' => $this->middle_name,
+            'last_name' => $this->last_name,
+            'address' => $this->address,
+            'number' => $this->number,
+            'email' => $this->email,
+            'ticket_type_id' => $this->ticket_type_id,
+            'category_id' => $this->category_id,
+            'sub_category_id' => $this->sub_category_id,
+            'subject' => $this->subject,
+            'ref_no' => $this->ref_no,
+            'concern' => $this->concern,
+            'status' => $this->status,
+            'resolved_by' => $this->resolved_by,
+            'resolved_date' => $this->resolved_date,
+            'closed_date' => $this->closed_date,
+        ];
     }
 }
