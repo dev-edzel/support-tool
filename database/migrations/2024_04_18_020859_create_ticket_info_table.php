@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('subject');
             $table->string('ref_no');
             $table->string('concern');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('last_modified_log_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

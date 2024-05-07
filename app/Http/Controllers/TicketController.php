@@ -10,6 +10,7 @@ use App\Traits\HasHelper;
 use App\Traits\HasLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
 {
@@ -135,13 +136,15 @@ class TicketController extends Controller
         $request->validate([
             'ticket_id' => ['required', 'exists:tickets,id'],
             'username' => ['required', 'exists:users,username'],
+            'status' => ['nullable', 'string', Rule::in([
+                'OPEN', 'ASSIGNED', 'CANCELLED', 'CLOSED'
+            ])],
         ]);
 
         $ticket = Ticket::findOrFail($request->ticket_id);
 
         $ticket->update([
             'assigned_to' => $request->username,
-            'status' => 'ASSIGNED',
         ]);
 
         return response()->success(

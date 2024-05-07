@@ -37,6 +37,14 @@ class TicketInfoController extends Controller
     {
         $validatedData = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $imagePath = $request
+                ->file('image')
+                ->store('public/images');
+            $imageName = basename($imagePath);
+            $validatedData['image'] = $imageName;
+        }
+
         $ticketType = TicketType::findOrFail($validatedData['ticket_type_id']);
 
         $ticketNumber = $ticketType

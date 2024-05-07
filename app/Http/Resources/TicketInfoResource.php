@@ -30,6 +30,7 @@ class TicketInfoResource extends JsonResource
             'subject' => $this->subject,
             'ref_no' => $this->ref_no,
             'concern' => $this->concern,
+            'image' => $this->image,
             'status' => $this->ticket->status,
             'assigned_to' => $this->ticket->assigned_to
         ];

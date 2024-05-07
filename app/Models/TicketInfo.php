@@ -28,6 +28,7 @@ class TicketInfo extends Model
         'subject',
         'ref_no',
         'concern',
+        'image',
     ];
 
     protected $hidden = [

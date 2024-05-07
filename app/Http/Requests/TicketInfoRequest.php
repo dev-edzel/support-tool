@@ -45,6 +45,7 @@ class TicketInfoRequest extends FormRequest
                 'subject' => ['required', 'string'],
                 'ref_no' => ['required', 'string'],
                 'concern' => ['nullable', 'string'],
+                'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif'],
             ];
         } else {
             return [];

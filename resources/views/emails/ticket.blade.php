@@ -23,6 +23,7 @@
         <li>Subject: {{ $ticketInfo['subject'] }}</li>
         <li>Reference Number: {{ $ticketInfo['ref_no'] }}</li>
         <li>Concern: {{ $ticketInfo['concern'] }}</li>
+        <li>Concern: {{ $ticketInfo['image'] }}</li>
     </ul>
 
     <p>Track your ticket here test.com/track</p>

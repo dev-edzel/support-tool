@@ -29,20 +29,18 @@ class TicketRequest extends FormRequest
             return [
                 'ticket_number' => ['required', 'string'],
                 'status' => ['nullable', 'string', Rule::in([
-                    'OPEN', 'ASSIGNED', 'ON_HOLD', 'CANCELLED', 'CLOSED'
+                    'OPEN', 'ASSIGNED', 'CANCELLED', 'CLOSED'
                 ])],
                 'resolved_by' => ['nullable', 'string']
             ];
         } else {
             return [
                 'status' => ['nullable', 'string', Rule::in([
-                    0, 1, 2, 3, 4
+                    'OPEN', 'ASSIGNED', 'CANCELLED', 'CLOSED'
                 ])],
-                'ticket_number' => ['nullable', 'string']
             ];
         }
     }
-
 
     protected function failedValidation(Validator $validator)
     {
