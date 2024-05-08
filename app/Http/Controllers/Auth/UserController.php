@@ -17,19 +17,19 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::search($request
-            ->input('search'))
+        // $this->authorize('view-tickets');
+
+        $user = User::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            'Searching Users Successful',
-            UserResource::collection($users)
-        );
+        return UserResource::collection($user);
     }
 
-    public function show(User $user)
+    public function show(string $id)
     {
+        $user = User::findOrFail($id);
+
         return response()->success(
             'Searching User Successful',
             new UserResource($user)
@@ -59,8 +59,46 @@ class UserController extends Controller
         );
     }
 
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        DB::transaction(function () use ($user) {
+            $log = $this->log('REMOVE USER', $user);
+            $user->last_modified_log_id = $log->id;
+            $user->save();
+            $user->delete();
+        });
+
+        return response()->success(
+            'Deleting User Info Successful',
+            new UserResource($user)
+        );
+    }
+
+    public function trashed(Request $request)
+    {
+        return response()->success(
+            'Searching Deleted User Successful',
+            UserResource::collection(
+                User::search($request->input('search'))
+                    ->onlyTrashed()->paginate(10)
+            )
+        );
+    }
+
+    public function restore(string $id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        DB::transaction(function () use ($user) {
+            $log = $this->log('RESTORE USER', $user);
+            $user->last_modified_log_id = $log->id;
+            $user->save();
+            $user->restore();
+        });
+
+        return response()->success(
+            'Restoring User Successful',
+            new UserResource($user)
+        );
     }
 }

@@ -20,22 +20,20 @@ class TicketController extends Controller
     {
         // $this->authorize('view-tickets');
 
-        $tickets = Ticket::search($request
-            ->input('search'))
+        $tix = Ticket::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            "Searching Ticket Successful",
-            TicketResource::collection($tickets)
-        );
+        return TicketResource::collection($tix);
     }
 
-    public function show(Ticket $ticket)
+    public function show(string $id)
     {
+        $tix = Ticket::findOrFail($id);
+
         return response()->success(
             'Searching Ticket Successful',
-            new TicketResource($ticket)
+            new TicketResource($tix)
         );
     }
 

@@ -16,15 +16,11 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::search($request
-            ->input('search'))
+        $cat = Category::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            'Searching Categories Successful',
-            CategoryResource::collection($categories)
-        );
+        return CategoryResource::collection($cat);
     }
 
     public function store(CategoryRequest $request)
@@ -39,8 +35,10 @@ class CategoryController extends Controller
         );
     }
 
-    public function show(Category $category)
+    public function show(string $id)
     {
+        $category = Category::findOrFail($id);
+
         return response()->success(
             'Searching Category Successful',
             new CategoryResource($category)

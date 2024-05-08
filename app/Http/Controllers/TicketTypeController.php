@@ -16,15 +16,13 @@ class TicketTypeController extends Controller
 
     public function index(Request $request)
     {
-        $ticket_type = TicketType::search($request
-            ->input('search'))
+        // $this->authorize('view-tickets');
+
+        $tixtype = TicketType::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            "Searching Ticket Type Successful",
-            TicketTypeResource::collection($ticket_type)
-        );
+        return TicketTypeResource::collection($tixtype);
     }
 
     public function store(TicketTypeRequest $request)
@@ -39,8 +37,10 @@ class TicketTypeController extends Controller
         );
     }
 
-    public function show(TicketType $ticket_type)
+    public function show(string $id)
     {
+        $ticket_type = TicketType::findOrFail($id);
+
         return response()->success(
             'Searching Ticket Type Successful',
             new TicketTypeResource($ticket_type)

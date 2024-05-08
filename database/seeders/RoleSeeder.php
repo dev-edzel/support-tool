@@ -15,10 +15,6 @@ class RoleSeeder extends Seeder
     {
         $data = config('seeder.roles');
 
-        foreach ($data as $role) {
-            Role::create([
-                'name' => $role['name']
-            ]);
-        }
+        Role::insert($data);
     }
 }

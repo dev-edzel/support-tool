@@ -17,15 +17,11 @@ class SubCategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = SubCategory::search($request
-            ->input('search'))
+        $sc = SubCategory::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            'Searching Sub Categories Successful',
-            SubCategoryResource::collection($categories)
-        );
+        return SubCategoryResource::collection($sc);
     }
 
     public function store(SubCategoryRequest $request)
@@ -49,8 +45,10 @@ class SubCategoryController extends Controller
         );
     }
 
-    public function show(SubCategory $sub_category)
+    public function show(string $id)
     {
+        $sub_category = SubCategory::findOrFail($id);
+
         return response()->success(
             'Searching Sub Category Successful',
             new SubCategoryResource($sub_category)

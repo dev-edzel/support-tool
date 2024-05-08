@@ -10,38 +10,61 @@ use App\Traits\HasHelper;
 use App\Traits\HasLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserInfoController extends Controller
 {
     use HasLogger, HasHelper;
 
+    const MSG_SEARCH_SUCCESS = "Searching User Info Successful";
+
     public function index(Request $request)
     {
-        $ticket_type = UserInfo::search($request
-            ->input('search'))
+        // $this->authorize('view-tickets');
+
+        $info = UserInfo::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            "Searching User Info Successful",
-            UserInfoResource::collection($ticket_type)
-        );
+        return UserInfoResource::collection($info);
     }
 
     public function store(UserInfoRequest $request)
     {
-        $data = $request->toArray();
+        try {
+            $validated = $request->validated();
 
-        $user_info = UserInfo::create($data);
+            if ($request->hasFile('photo')) {
+                $imagePath = $request
+                    ->file('photo')
+                    ->store('public/images');
+                $imageName = basename($imagePath);
+                $validated['photo'] = $imageName;
+            }
 
-        return response()->success(
-            'Storing User Info Successful',
-            new UserInfoResource($user_info)
-        );
+            $user_info = UserInfo::create($validated);
+
+            return response()->success(
+                'Storing User Info Successful',
+                new UserInfoResource($user_info)
+            );
+        } catch (\Exception $e) {
+            // Rollback image upload if an error occurs
+            if (isset($imagePath)) {
+                Storage::delete($imagePath);
+            }
+
+            return response()->failed(
+                'Storing User Info Failed',
+                $e->getMessage()
+            );
+        }
     }
 
-    public function show(UserInfo $user_info)
+    public function show(string $id)
     {
+        $user_info = UserInfo::findOrFail($id);
+
         return response()->success(
             'Searching User Info Successful',
             new UserInfoResource($user_info)
@@ -50,21 +73,49 @@ class UserInfoController extends Controller
 
     public function update(UserInfoRequest $request, UserInfo $user_info)
     {
-        $changes = DB::transaction(function () use ($request, $user_info) {
-            $changes = $this->resourceParser($request, $user_info);
-
-            if ($changes) {
-                $log = $this->log('UPDATE INFO', $changes);
-                $user_info->update(['last_modified_log_id' => $log->id]);
+        try {
+            $imageName = $user_info->logo_path;
+            if ($request->hasFile('photo')) {
+                $imagePath = $request->file('photo')
+                    ->store('public/images');
+                $imageName = basename($imagePath);
             }
 
-            return $changes;
-        });
+            $changes = DB::transaction(function ()
+            use ($request, $user_info, $imageName) {
+                $changes = $this->resourceParser(
+                    $request,
+                    $user_info,
+                    ['photo' => $imageName]
+                );
 
-        return response()->success(
-            $changes ? 'Updating User Info Successful' : 'No changes made.',
-            new UserInfoResource($user_info)
-        );
+                if ($changes) {
+                    $log = $this->log('UPDATE USER INFO', $changes);
+                    $user_info->update([
+                        'last_modified_log_id' => $log->id
+                    ]);
+                }
+
+                return $changes;
+            });
+
+            return response()->success(
+                $changes
+                    ? 'Updating User Info Successful'
+                    : 'No changes made.',
+                new UserInfoResource($user_info)
+            );
+        } catch (\Exception $e) {
+            // Rollback image upload if an error occurs
+            if (isset($imagePath)) {
+                Storage::delete($imagePath);
+            }
+
+            return response()->failed(
+                'Error updating User Info',
+                $e->getMessage()
+            );
+        }
     }
 
     public function destroy(UserInfo $user_info)
@@ -84,14 +135,12 @@ class UserInfoController extends Controller
 
     public function trashed(Request $request)
     {
-        $user_info = UserInfo::search($request->input('search'))
-            ->orderBy('id', 'asc')
-            ->onlyTrashed()
-            ->paginate(10);
-
         return response()->success(
-            'Searching Deleted User Info Successful',
-            UserInfoResource::collection($user_info)
+            self::MSG_SEARCH_SUCCESS,
+            UserInfoResource::collection(
+                UserInfo::search($request->input('search'))
+                    ->onlyTrashed()->paginate(10)
+            )
         );
     }
 
@@ -107,7 +156,7 @@ class UserInfoController extends Controller
         });
 
         return response()->success(
-            "Restoring User Info Successful",
+            'Restoring User Info Successful',
             new UserInfoResource($user_info)
         );
     }

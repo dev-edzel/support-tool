@@ -22,15 +22,11 @@ class TicketInfoController extends Controller
     {
         // $this->authorize('view-tickets');
 
-        $tickets = TicketInfo::search($request
-            ->input('search'))
+        $ti = TicketInfo::search($request->input('search'))
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return response()->success(
-            'Searching Ticket Info Successful',
-            TicketInfoResource::collection($tickets)
-        );
+        return TicketInfoResource::collection($ti);
     }
 
     public function store(TicketInfoRequest $request)
@@ -69,8 +65,10 @@ class TicketInfoController extends Controller
         );
     }
 
-    public function show(TicketInfo $ticket_info)
+    public function show(string $id)
     {
+        $ticket_info = TicketInfo::findOrFail($id);
+
         return response()->success(
             'Searching Ticket Info Successful',
             new TicketInfoResource($ticket_info)

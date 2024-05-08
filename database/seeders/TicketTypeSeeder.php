@@ -15,11 +15,6 @@ class TicketTypeSeeder extends Seeder
     {
         $data = config('seeder.ticket_types');
 
-        foreach ($data as $type) {
-            TicketType::create([
-                'short_name' => $type['short_name'],
-                'name' => $type['name'],
-            ]);
-        }
+        TicketType::insert($data);
     }
 }
